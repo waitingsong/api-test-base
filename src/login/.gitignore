@@ -1,0 +1,11 @@
+*.js
+config.*.ts
+*.map
+*.bak
+*.md5
+*.d.ts
+
+*~
+*.sw[mnpcod]
+*.tmp
+*.tmp.*

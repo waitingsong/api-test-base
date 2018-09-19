@@ -1,0 +1,17 @@
+import { AuthConfig, TestConfig } from '../lib/model'
+
+
+export const testConfig: Partial<TestConfig> = {
+  suitePath: '/',
+  urlPrefix: 'https://127.0.0.1:8443/',
+}
+
+export const authConfig: AuthConfig = {
+  login: {
+    url: testConfig.urlPrefix + 'loginController/login.do',
+    data: {
+      userCode: 'foo',
+      userPassword: 'bar',
+    },
+  },
+}

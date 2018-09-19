@@ -8,6 +8,7 @@ const folderArr = [
   '.settings',
   'resource',
   'configs',
+  'src/login',
 ]
 
 export default folderArr

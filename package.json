@@ -1,8 +1,8 @@
 {
-  "name": "npm-base",
+  "name": "api-test-base",
   "author": "waiting",
   "version": "0.0.1",
-  "description": "npm boilerplate",
+  "description": "api-test boilerplate",
   "keywords": [
     "typescript"
   ],
@@ -16,12 +16,12 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bugs": {
-    "url": "https://github.com/waitingsong/npm-base/issues"
+    "url": "https://github.com/waitingsong/api-test-base/issues"
   },
-  "homepage": "https://github.com/waitingsong/npm-base#readme",
+  "homepage": "https://github.com/waitingsong/api-test-base#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/waitingsong/npm-base.git"
+    "url": "git+https://github.com/waitingsong/api-test-base.git"
   },
   "license": "MIT",
   "nyc": {
@@ -44,7 +44,10 @@
     "all": true
   },
   "dependencies": {
-    "rxjs": ">=6.2.0"
+    "@waiting/log": "^1.0.1",
+    "allready": "^0.7.0",
+    "rxjs": ">=6.2.0",
+    "rxxfetch": "^1.10.0"
   },
   "devDependencies": {
     "@types/mocha": "*",
@@ -65,7 +68,7 @@
     "rimraf": "^2.6.2",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-terser": "^2.0.2",
+    "rollup-plugin-terser": "^3.0.0",
     "source-map-support": "^0.5.6",
     "ts-node": ">=7",
     "tslint": "^5.11.0",
@@ -74,6 +77,7 @@
     "yargs": "^12.0.1"
   },
   "scripts": {
+    "api": "ts-node -P tsconfig.cjs.json src/index.ts",
     "bp:add": "git remote add bp https://github.com/waitingsong/npm-base",
     "bp:sync": "git fetch bp && git pull --no-edit bp master",
     "build": "npm run clean && npm run lint && npm run lint:t && npm run tsc && npm run jslint && npm run rp",
@@ -92,5 +96,8 @@
     "test:debug": "cd .config && npm run debug && cd ..",
     "tsc": "tsc -p tsconfig.json",
     "tsc:w": "tsc -p tsconfig.json -w"
+  },
+  "scripts-info": {
+    "api": "Run TestSuites under `src/api/`. arguments: `--no-login`; `--login=<loginName>` for src/login/config.<loginName>.ts, 'default' if omit; `--path=<dirName>` for suite path under `src/api/` "
   }
 }
