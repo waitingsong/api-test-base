@@ -1,5 +1,4 @@
 import { setConfig } from 'allready'
-import * as assert_ from 'assert'
 import { empty, from as ofrom, Observable } from 'rxjs'
 import { map, mapTo, mergeMap, pluck, switchMap, take } from 'rxjs/operators'
 import { post, JsonType, RxRequestInit } from 'rxxfetch'
@@ -13,11 +12,11 @@ import {
   retrieveAuthInfoFromArgv,
   retrieveCookiesFromResp,
 } from '../lib/util'
+import { assert } from '../shared/index'
 
 import { DoLoginRet } from './model'
 
 
-const assert = assert_
 const argv = yargs.argv
 // CLI: `npm run api -- --name username --pwd 123456`
 const authSecret = retrieveAuthInfoFromArgv(argv)
