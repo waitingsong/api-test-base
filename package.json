@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@waiting/log": "^1.0.1",
-    "allready": "^0.8.0",
+    "allready": "^0.9.0",
     "rxjs": ">=6.2.0",
     "rxxfetch": "^1.10.0"
   },
