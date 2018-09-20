@@ -1,11 +1,21 @@
 import { error, log } from '@waiting/log'
 import { TestResult } from 'allready'
 import { parseRespCookie } from 'rxxfetch'
+import { Arguments as YargsArg } from 'yargs'
 
 import { basename, join } from '../shared/index'
 
 import { initialTestConfig, logSymbol } from './config'
-import { LoginConfig, RetStatusKey, SummaryCount, TestConfig } from './model'
+import { AuthSecret, LoginConfig, RetStatusKey, SummaryCount, TestConfig } from './model'
+
+
+export function retrieveAuthInfoFromArgv(argv: YargsArg): AuthSecret {
+  const ret: AuthSecret = {
+    name: argv.name ? String(argv.name) : '',
+    pwd: argv.pwd ? String(argv.pwd) : '',
+  }
+  return ret
+}
 
 
 /**

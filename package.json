@@ -98,6 +98,6 @@
     "tsc:w": "tsc -p tsconfig.json -w"
   },
   "scripts-info": {
-    "api": "Run TestSuites under `src/api/`. arguments: `--no-login`; `--login=<loginName>` for src/login/config.<loginName>.ts, 'default' if omit; `--path=<dirName>` for suite path under `src/api/` "
+    "api": "Run TestSuites under `src/api/`. arguments: `--no-login`; `--login=<loginName>` for src/login/config.<loginName>.ts, 'default' if omit; `--path=<dirName>` for suite path under `src/api/`; NOTE: arguents must with prefix `--`, eg. `npm run api -- --login zg --name foo --pwd bar` "
   }
 }

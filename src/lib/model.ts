@@ -29,7 +29,15 @@ export interface AuthOpts {
   /** Full URL of auth request */
   url: string
   /** Secret auth info to be send */
-  data: Args['data']
+  data: Args['data'] | AuthSecret
+}
+
+export interface AuthSecret {
+  /** user name */
+  name: string
+  /** user password */
+  pwd: string
+  [prop: string]: string
 }
 
 /** Export type of src/login/config.<loginName>.ts */

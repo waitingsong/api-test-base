@@ -2,17 +2,25 @@ import { setConfig } from 'allready'
 import * as assert_ from 'assert'
 import { empty, from as ofrom, Observable } from 'rxjs'
 import { mapTo, mergeMap, switchMap, take } from 'rxjs/operators'
-import { post, RxRequestInit } from 'rxxfetch'
+import { post, JsonType, RxRequestInit } from 'rxxfetch'
 import * as yargs from 'yargs'
 
 import { AuthConfig, AuthOpts, TestConfig } from '../lib/model'
-import { loadLoginConfig, parseTestConfig, resolveTestConfigSuitePath, retrieveCookiesFromResp } from '../lib/util'
+import {
+  loadLoginConfig,
+  parseTestConfig,
+  resolveTestConfigSuitePath,
+  retrieveAuthInfoFromArgv,
+  retrieveCookiesFromResp,
+} from '../lib/util'
 
 import { DoLoginRet } from './model'
 
 
 const assert = assert_
 const argv = yargs.argv
+// CLI: `npm run api -- --name username --pwd 123456`
+const authSecret = retrieveAuthInfoFromArgv(argv)
 
 let login$: Observable<string> = empty()
 let loginName: string | false = 'default'
@@ -20,7 +28,7 @@ if (argv.login === false || argv.login === 'false') {
   loginName = false
 }
 
-// CLI: `npm run api --login <loginName>`
+// CLI: `npm run api -- --login <loginName>`
 if (loginName) {
   const mod = loadLoginConfig(loginName)
   const testConfig: TestConfig = parseTestConfig(<TestConfig> mod.testConfig)
@@ -60,7 +68,14 @@ function combineAuth(config: AuthConfig): Observable<void> {
 
 
 function doLogin(options: AuthOpts): Observable<DoLoginRet> {
-  const { url, data } = options
+  const url = options.url
+  const data = <JsonType> options.data
+  if (authSecret.name) {
+    data.userCode = authSecret.name
+  }
+  if (authSecret.pwd) {
+    data.userPassword = authSecret.pwd
+  }
   const args: RxRequestInit = {
     data,
     dataType: 'raw',
@@ -78,9 +93,8 @@ function doLogin(options: AuthOpts): Observable<DoLoginRet> {
         else if (typeof res.state !== 'undefined') {
           assert(+res.state > 5, res.msg)
         }
-        else {
-          res.cookies = cookies
-        }
+
+        res.cookies = cookies
         return res
       })
     }),
