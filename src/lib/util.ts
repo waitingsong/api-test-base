@@ -74,7 +74,7 @@ export function resolveTestConfigSuitePath(ps?: string | string[]): string[] {
 
 
 export function outputResult(data: TestResult): void {
-  log(`\n${logSymbol[data.status]} ${ basename(data.filePath) } ${data.suiteName}`)
+  log(`\n${logSymbol[data.status]} ${ basename(data.filePath) } ${data.suiteName} : ${data.unitName}`)
   if (data.error) {
     error(data.error.name + '-------------------')
     error(data.error.message)
