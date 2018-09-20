@@ -68,12 +68,19 @@ function doLogin(options: AuthOpts): Observable<DoLoginRet> {
 
   const ret$ = post<Response>(url, args).pipe(
     mergeMap(resp => {
-      assert(resp)
       const cookies = retrieveCookiesFromResp(resp)
       setConfig({ cookies })
 
       return resp.json().then(res => {
-        res.cookies = cookies
+        if (typeof res.err !== 'undefined') {
+          assert(!res.err, res.msg)
+        }
+        else if (typeof res.state !== 'undefined') {
+          assert(+res.state > 5, res.msg)
+        }
+        else {
+          res.cookies = cookies
+        }
         return res
       })
     }),
