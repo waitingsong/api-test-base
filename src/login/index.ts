@@ -1,11 +1,11 @@
 import { setConfig } from 'allready'
 import * as assert_ from 'assert'
 import { empty, from as ofrom, Observable } from 'rxjs'
-import { mapTo, mergeMap, switchMap, take } from 'rxjs/operators'
+import { map, mapTo, mergeMap, pluck, switchMap, take } from 'rxjs/operators'
 import { post, JsonType, RxRequestInit } from 'rxxfetch'
 import * as yargs from 'yargs'
 
-import { AuthConfig, AuthOpts, TestConfig } from '../lib/model'
+import { AjaxResp, AuthConfig, AuthOpts, TestConfig } from '../lib/model'
 import {
   loadLoginConfig,
   parseTestConfig,
@@ -86,18 +86,28 @@ function doLogin(options: AuthOpts): Observable<DoLoginRet> {
       const cookies = retrieveCookiesFromResp(resp)
       setConfig({ cookies })
 
-      return resp.json().then(res => {
-        if (typeof res.err !== 'undefined') {
-          assert(!res.err, res.msg)
-        }
-        else if (typeof res.state !== 'undefined') {
-          assert(+res.state > 5, res.msg)
-        }
+      const stream$ = ofrom(resp.json()).pipe(
+        map((res: AjaxResp<DoLoginRet>) => {
+          if (typeof res.err !== 'undefined') {
+            assert(!res.err, res.msg ? res.msg : 'empty result.msg')
+          }
+          else if (typeof res.state !== 'undefined') {
+            assert(+res.state > 5, res.msg ? res.msg : 'empty result.msg')
+          }
 
-        res.cookies = cookies
-        return res
-      })
+          if (typeof res.dat === 'object' && res.dat) {
+            res.dat.cookies = cookies ? cookies : null
+          }
+          else {
+            res.dat = { cookies: cookies ? cookies : null }
+          }
+
+          return res
+        }),
+      )
+      return stream$
     }),
+    pluck<JsonType, DoLoginRet>('dat'),
   )
   return ret$
 }

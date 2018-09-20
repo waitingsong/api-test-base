@@ -59,3 +59,12 @@ export type LogSymbol = {
 export type SummaryCount = {
   [status in RetStatusKey]: number
 }
+
+export interface AjaxResp <T = any> {
+  err: number
+  /** Sometimes api only return state without err, so generate err by state */
+  state: number
+  dat?: T
+  msg?: string | null
+  [key: string]: any
+}
