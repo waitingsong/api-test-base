@@ -60,11 +60,23 @@ export type SummaryCount = {
   [status in RetStatusKey]: number
 }
 
-export interface AjaxResp <T = any> {
+export interface AjaxResp<T = any> {
   err: number
   /** Sometimes api only return state without err, so generate err by state */
   state: number
   dat?: T
   msg?: string | null
   [key: string]: any
+}
+
+/** jQGrid response data */
+export interface GridResp<T = any> {
+  /** Current page index */
+  page: number
+  /** Total items */
+  record: number
+  /** payload */
+  rows: T[] | null
+  /** Total pages */
+  total: number
 }
