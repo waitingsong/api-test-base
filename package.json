@@ -44,6 +44,7 @@
     "all": true
   },
   "dependencies": {
+    "@types/yargs": "*",
     "@waiting/log": "^1.0.1",
     "allready": "^0.9.1",
     "rxjs": ">=6.2.0",
@@ -56,7 +57,6 @@
     "@types/power-assert": "*",
     "@types/rewire": "*",
     "@types/rimraf": "*",
-    "@types/yargs": "*",
     "coveralls": "^3.0.0",
     "eslint": "^5.4.0",
     "intelli-espower-loader": "^1.0.1",
