@@ -50,7 +50,7 @@ if (loginName) {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = TLS_REJECT_UNAUTHORIZED
   }
 
-  if (typeof urlPrefixArg === null && urlPrefix) {
+  if (urlPrefixArg === null && urlPrefix) {
     setConfig({ urlPrefix })
   }
 
