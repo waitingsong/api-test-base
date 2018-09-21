@@ -69,6 +69,21 @@ export interface AjaxResp<T = any> {
   [key: string]: any
 }
 
+/** jqGrid request data */
+export interface GridRequest {
+  _search?: boolean
+  /** Timestamp */
+  nd: number
+  /** Rows per page */
+  rows: number
+  /** Page index */
+  page: number
+  /** Order by field(s) */
+  sidx: string
+  /** Sort order asc|desc */
+  sord: 'asc' | 'desc'
+}
+
 /** jQGrid response data */
 export interface GridResp<T = any> {
   /** Current page index */
