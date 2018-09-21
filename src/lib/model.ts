@@ -82,7 +82,30 @@ export interface GridRequest {
   sidx: string
   /** Sort order asc|desc */
   sord: 'asc' | 'desc'
+  filters_ext?: GridFilter
 }
+
+export interface GridFilter {
+  groupOp: 'AND' | 'OR'
+  rules: GridFilterRule[]
+}
+
+export interface GridFilterRule {
+  field: string
+  op: GridSearchOper
+  data: string
+}
+/*
+  * all: ['eq','ne','lt','le','gt','ge', 'bw','bn','in','ni',
+  * 'ew','en','cn','nc']
+  * ['equal', 'not equal', 'less', 'less or
+  * equal','greater', 'greater or equal', 'begins with', 'does not begin
+  * with', 'is in','is not in', 'ends with','does not end
+  * with','contains','does not contain']
+  */
+export type GridSearchOper = 'eq' | 'ne' | 'lt' | 'le' | 'gt' | 'ge' |
+  'bw' | 'bn' | 'in' | 'ni' | 'ew' | 'en' | 'cn' | 'nc'
+
 
 /** jQGrid response data */
 export interface GridResp<T = any> {
