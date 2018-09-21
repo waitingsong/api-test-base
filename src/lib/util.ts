@@ -9,12 +9,22 @@ import { initialTestConfig, logSymbol } from './config'
 import { AuthSecret, LoginConfig, RetStatusKey, SummaryCount, TestConfig } from './model'
 
 
+/** CLI: `--name <name> --pwd <pwd>` */
 export function retrieveAuthInfoFromArgv(argv: YargsArg): AuthSecret {
   const ret: AuthSecret = {
     name: argv.name ? String(argv.name) : '',
     pwd: argv.pwd ? String(argv.pwd) : '',
   }
   return ret
+}
+
+
+/** CLI: `--url-prefix https://...` or `--urlPrefix https://...` */
+export function retrieveUrlPrefixFromArgv(argv: YargsArg): string | null {
+  if (typeof argv.urlPrefix === 'string') {
+    return argv.urlPrefix.trim()
+  }
+  return null
 }
 
 

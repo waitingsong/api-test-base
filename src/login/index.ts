@@ -11,6 +11,7 @@ import {
   resolveTestConfigSuitePath,
   retrieveAuthInfoFromArgv,
   retrieveCookiesFromResp,
+  retrieveUrlPrefixFromArgv,
 } from '../lib/util'
 import { assert } from '../shared/index'
 
@@ -18,8 +19,9 @@ import { DoLoginRet } from './model'
 
 
 const argv = yargs.argv
-// CLI: `npm run api -- --name username --pwd 123456`
+// CLI: `npm start -- --name username --pwd password`
 const authSecret = retrieveAuthInfoFromArgv(argv)
+const urlPrefixArg = retrieveUrlPrefixFromArgv(argv)
 
 let login$: Observable<string> = empty()
 let loginName: string | false = 'default'
@@ -27,7 +29,7 @@ if (argv.login === false || argv.login === 'false') {
   loginName = false
 }
 
-// CLI: `npm run api -- --login <loginName>`
+// CLI: `npm start -- --login <loginName>`
 if (loginName) {
   const mod = loadLoginConfig(loginName)
   const testConfig: TestConfig = parseTestConfig(<TestConfig> mod.testConfig)
@@ -53,6 +55,10 @@ else {
 
 if (typeof argv.TLS_REJECT_UNAUTHORIZED !== 'undefined') {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = argv.TLS_REJECT_UNAUTHORIZED + ''
+}
+
+if (typeof urlPrefixArg === 'string') {
+  setConfig({ urlPrefix: urlPrefixArg })
 }
 
 
