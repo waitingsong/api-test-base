@@ -23,6 +23,15 @@ const argv = yargs.argv
 const authSecret = retrieveAuthInfoFromArgv(argv)
 const urlPrefixArg = retrieveUrlPrefixFromArgv(argv)
 
+if (typeof argv.TLS_REJECT_UNAUTHORIZED !== 'undefined') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = argv.TLS_REJECT_UNAUTHORIZED + ''
+}
+
+if (urlPrefixArg !== null) {
+  setConfig({ urlPrefix: urlPrefixArg })
+}
+
+
 let login$: Observable<string> = empty()
 let loginName: string | false = 'default'
 if (argv.login === false || argv.login === 'false') {
@@ -36,8 +45,14 @@ if (loginName) {
   const authConfig: AuthConfig | void = mod.authConfig
 
   const { suitePath, urlPrefix, TLS_REJECT_UNAUTHORIZED } = testConfig
-  urlPrefix && setConfig({ urlPrefix })
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = TLS_REJECT_UNAUTHORIZED
+
+  if (typeof argv.TLS_REJECT_UNAUTHORIZED === 'undefined') {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = TLS_REJECT_UNAUTHORIZED
+  }
+
+  if (typeof urlPrefixArg === null && urlPrefix) {
+    setConfig({ urlPrefix })
+  }
 
   login$ = ofrom(suitePath)
   if (authConfig) {
@@ -52,14 +67,6 @@ else {
   login$ = ofrom(suitePath)
 }
 
-
-if (typeof argv.TLS_REJECT_UNAUTHORIZED !== 'undefined') {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = argv.TLS_REJECT_UNAUTHORIZED + ''
-}
-
-if (typeof urlPrefixArg === 'string') {
-  setConfig({ urlPrefix: urlPrefixArg })
-}
 
 
 function combineAuth(config: AuthConfig): Observable<void> {
