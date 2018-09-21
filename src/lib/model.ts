@@ -74,7 +74,7 @@ export interface GridResp<T = any> {
   /** Current page index */
   page: number
   /** Total items */
-  record: number
+  records: number
   /** payload */
   rows: T[] | null
   /** Total pages */
